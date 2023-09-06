@@ -31,8 +31,7 @@ public abstract class ProductModel {
     @Column(nullable = false)
     private Double price;
 
-    @OneToMany
-    @JoinTable
+    @OneToMany(fetch = FetchType.EAGER)
     //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<SizeModel> sizes;
 

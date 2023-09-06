@@ -10,6 +10,7 @@ import com.coralsoft.domproduct.servicies.SizeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -67,8 +68,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<ProductModelDto> findAll(Pageable pageable) {
-        Page<ProductModel> pageProductModel = productRepository.findAll(pageable);
+    public Page<ProductModelDto> findAll(Specification<ProductModel> spec, Pageable pageable) {
+        Page<ProductModel> pageProductModel = productRepository.findAll(spec,pageable);
         Page<ProductModelDto> pageProductDto = pageProductModel.map(new Function<ProductModel, ProductModelDto>() {
             @Override
             public ProductModelDto apply(ProductModel productModel) {
