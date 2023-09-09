@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -35,16 +36,26 @@ public class SizeServiceImpl implements SizeService {
 
     @Override
     public Object findById(UUID sizeId) {
-        Optional<SizeModel> sizeModelOptional = sizeRepository.findById(sizeId);
-        if(sizeModelOptional.isEmpty()){
-            throw new SizeNotFoundException(sizeId);
-        }
-        return sizeModelOptional.get();
+        SizeModel sizeModel = sizeRepository.findById(sizeId).orElseThrow(() -> new SizeNotFoundException(sizeId));
+        return sizeModel;
     }
 
     @Override
     public List<SizeModel> findAllSizeByProductId(UUID productId) {
         return sizeRepository.findAllByProductId(productId);
+    }
+
+    @Transactional
+    @Override
+    public void deleteById(UUID sizeId) {
+        sizeRepository.deleteRelationSizeProductBySizeId(sizeId);
+        sizeRepository.deleteById(sizeId);
+    }
+
+    @Transactional
+    @Override
+    public void deleteSizes(List<SizeModel> sizes) {
+        sizes.forEach(size -> sizeRepository.delete(size));
     }
 
 

@@ -1,7 +1,9 @@
 package com.coralsoft.domproduct.exceptions.exceptionHandler;
 
 public enum ProblemType {
-    BRAND_NOT_FOUND("/brand-not-found", "Brand Not Found.");
+    BRAND_NOT_FOUND("/brand-not-found", "Brand Not Found."),
+    SIZE_NOT_FOUND("/size-not-found", "Size Not Found."),
+    PRODUCT_NOT_FOUND("/product-not-found", "Product Not Found.");
     private String uri;
     private String title;
 

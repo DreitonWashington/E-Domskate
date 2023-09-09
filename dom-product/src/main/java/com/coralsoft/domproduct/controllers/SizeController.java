@@ -35,5 +35,11 @@ public class SizeController {
         return ResponseEntity.status(HttpStatus.OK).body(sizeService.findById(sizeId));
     }
 
+    @DeleteMapping("/{sizeId}")
+    public ResponseEntity<Object> deleteSizeById(@PathVariable(value = "sizeId")UUID sizeId){
+        sizeService.deleteById(sizeId);
+        return ResponseEntity.status(HttpStatus.OK).body("Size deleted successfully.");
+    }
+
 
 }

@@ -18,4 +18,8 @@ public interface SizeService {
     Object findById(UUID sizeId);
 
     List<SizeModel> findAllSizeByProductId(UUID productId);
+
+    void deleteById(UUID sizeId);
+
+    void deleteSizes(List<SizeModel> sizes);
 }

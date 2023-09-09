@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -34,5 +35,8 @@ public abstract class ProductModel {
     @OneToMany(fetch = FetchType.EAGER)
     //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<SizeModel> sizes;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    private Set<ImageModel> images;
 
 }

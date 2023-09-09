@@ -1,6 +1,8 @@
 package com.coralsoft.domproduct.exceptions.exceptionHandler;
 
 import com.coralsoft.domproduct.exceptions.BrandNotFoundException;
+import com.coralsoft.domproduct.exceptions.ProductNotFoundException;
+import com.coralsoft.domproduct.exceptions.SizeNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,24 @@ public class DomProductExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(BrandNotFoundException.class)
     public ResponseEntity<Object> handleBrandNotFoundException(EntityNotFoundException ex, WebRequest request){
         ProblemType problemType = ProblemType.BRAND_NOT_FOUND;
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        String detail = ex.getMessage();
+        Problem problem = buildProblem(status, problemType, detail);
+        return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
+    }
+
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ResponseEntity<Object> handleProductNotFoundException(EntityNotFoundException ex, WebRequest request){
+        ProblemType problemType = ProblemType.PRODUCT_NOT_FOUND;
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        String detail = ex.getMessage();
+        Problem problem = buildProblem(status, problemType, detail);
+        return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
+    }
+
+    @ExceptionHandler(SizeNotFoundException.class)
+    public ResponseEntity<Object> handleSizeNotFoundException(EntityNotFoundException ex, WebRequest request){
+        ProblemType problemType = ProblemType.SIZE_NOT_FOUND;
         HttpStatus status = HttpStatus.NOT_FOUND;
         String detail = ex.getMessage();
         Problem problem = buildProblem(status, problemType, detail);

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -20,6 +21,8 @@ public class ProductModelDto {
     private Double price;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<SizeModelDto> sizes;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Set<ImageModelDto> images;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private TypeClothes typeClothes;
     @JsonInclude(JsonInclude.Include.NON_NULL)
