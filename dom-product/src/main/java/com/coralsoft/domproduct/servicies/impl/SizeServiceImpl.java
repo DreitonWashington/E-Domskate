@@ -11,8 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -41,7 +40,7 @@ public class SizeServiceImpl implements SizeService {
     }
 
     @Override
-    public List<SizeModel> findAllSizeByProductId(UUID productId) {
+    public Set<SizeModel> findAllSizeByProductId(UUID productId) {
         return sizeRepository.findAllByProductId(productId);
     }
 
@@ -54,7 +53,7 @@ public class SizeServiceImpl implements SizeService {
 
     @Transactional
     @Override
-    public void deleteSizes(List<SizeModel> sizes) {
+    public void deleteSizes(Set<SizeModel> sizes) {
         sizes.forEach(size -> sizeRepository.delete(size));
     }
 

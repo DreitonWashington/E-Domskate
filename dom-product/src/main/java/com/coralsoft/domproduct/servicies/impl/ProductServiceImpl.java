@@ -46,7 +46,7 @@ public class ProductServiceImpl implements ProductService {
             clothesModel.setDescription(productModelDto.getDescription());
             clothesModel.setPrice(productModelDto.getPrice());
 
-            List<SizeModel> sizesSaved = new ArrayList<SizeModel>();
+            Set<SizeModel> sizesSaved = new HashSet<>();
             for(SizeModelDto size : productModelDto.getSizes()){
                 sizesSaved.add(sizeService.save(size));
             }
@@ -69,7 +69,7 @@ public class ProductServiceImpl implements ProductService {
             shoesModel.setDescription(productModelDto.getDescription());
             shoesModel.setPrice(productModelDto.getPrice());
 
-            List<SizeModel> sizesSaved = new ArrayList<SizeModel>();
+            Set<SizeModel> sizesSaved = new HashSet<>();
             for(SizeModelDto size : productModelDto.getSizes()){
                 sizesSaved.add(sizeService.save(size));
             }
@@ -93,9 +93,9 @@ public class ProductServiceImpl implements ProductService {
             public ProductModelDto apply(ProductModel productModel) {
                 ProductModelDto dto = new ProductModelDto();
                 if(!productModel.getSizes().isEmpty()){
-                    List<SizeModel> l = sizeService.findAllSizeByProductId(productModel.getId());
+                    Set<SizeModel> l = sizeService.findAllSizeByProductId(productModel.getId());
                     productModel.setSizes(l);
-                    List<SizeModelDto> sizes = new ArrayList<>();
+                    Set<SizeModelDto> sizes = new HashSet<>();
                     for(SizeModel size : productModel.getSizes()){
                         SizeModelDto sizeModelDto = new SizeModelDto();
                         sizeModelDto.setSize(size.getSize());

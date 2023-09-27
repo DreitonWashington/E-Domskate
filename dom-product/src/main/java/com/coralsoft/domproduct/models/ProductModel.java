@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -32,11 +31,11 @@ public abstract class ProductModel {
     @Column(nullable = false)
     private Double price;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.LAZY)
     //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private List<SizeModel> sizes;
+    private Set<SizeModel> sizes;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.LAZY)
     private Set<ImageModel> images;
 
 }
