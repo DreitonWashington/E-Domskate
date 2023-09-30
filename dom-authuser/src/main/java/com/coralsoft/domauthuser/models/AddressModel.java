@@ -6,7 +6,7 @@ import javax.persistence.Embeddable;
 
 @Data
 @Embeddable
-public class Address {
+public class AddressModel {
     private String cep;
     private String state;
     private String city;

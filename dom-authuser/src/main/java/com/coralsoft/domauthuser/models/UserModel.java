@@ -20,13 +20,12 @@ public class UserModel implements Serializable {
     private String fullName;
     @Column(nullable = false, unique = true)
     private String username;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
     @Column(nullable = false)
     private String password;
     @Column(nullable = false)
     private UserType userType;
     @Embedded
-    private Address address;
-
+    private AddressModel address;
 }
