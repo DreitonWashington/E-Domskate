@@ -1,11 +1,8 @@
 package com.coralsoft.domauthuser.controllers;
 
-import com.coralsoft.domauthuser.models.UserModel;
-import com.coralsoft.domauthuser.repositories.UserRepository;
+import com.coralsoft.domauthuser.dtos.UserDto;
 import com.coralsoft.domauthuser.services.UserService;
-import com.coralsoft.domauthuser.services.impl.UserServiceImpl;
-import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,11 +20,15 @@ public class AuthenticationController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<Object> registerUser(@RequestBody UserModel user){
-        if(userService.existsByUsername(user.getUsername())){
+    public ResponseEntity<Object> registerUser(@RequestBody @JsonView(UserDto.UserView.RegistrationPost.class) UserDto userDto){
+        if(userService.existsByUserName(userDto.getUserName())){
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: User with username -> "
-                     + user.getUsername() + " already in use!");
+                     + userDto.getUserName() + " already in use!");
         }
-        return null;
+        if(userService.existsByEmail(userDto.getEmail())){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: User with email -> "
+                    + userDto.getEmail() + " already in use!");
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.saveUser(userDto));
     }
 }
