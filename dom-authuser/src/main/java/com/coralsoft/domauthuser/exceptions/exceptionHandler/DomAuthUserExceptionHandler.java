@@ -1,5 +1,6 @@
 package com.coralsoft.domauthuser.exceptions.exceptionHandler;
 
+import com.coralsoft.domauthuser.exceptions.RoleNotFoundException;
 import com.coralsoft.domauthuser.exceptions.UserNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,15 @@ public class DomAuthUserExceptionHandler extends ResponseEntityExceptionHandler 
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> handleUserNotFoundException(EntityNotFoundException ex, WebRequest request){
         ProblemType problemType = ProblemType.USER_NOT_FOUND;
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        String detail = ex.getMessage();
+        Problem problem = buildProblem(status, problemType, detail);
+        return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
+    }
+
+    @ExceptionHandler(RoleNotFoundException.class)
+    public ResponseEntity<Object> handleRoleNotFoundException(EntityNotFoundException ex, WebRequest request){
+        ProblemType problemType = ProblemType.ROLE_NOT_FOUND;
         HttpStatus status = HttpStatus.NOT_FOUND;
         String detail = ex.getMessage();
         Problem problem = buildProblem(status, problemType, detail);

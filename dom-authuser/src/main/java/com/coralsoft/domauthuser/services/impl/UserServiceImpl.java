@@ -1,17 +1,23 @@
 package com.coralsoft.domauthuser.services.impl;
 
 import com.coralsoft.domauthuser.dtos.UserDto;
+import com.coralsoft.domauthuser.enums.RoleType;
 import com.coralsoft.domauthuser.enums.UserType;
 import com.coralsoft.domauthuser.exceptions.UserNotFoundException;
 import com.coralsoft.domauthuser.models.AddressModel;
 import com.coralsoft.domauthuser.models.UserModel;
+import com.coralsoft.domauthuser.repositories.RoleRepository;
 import com.coralsoft.domauthuser.repositories.UserRepository;
+import com.coralsoft.domauthuser.services.RoleService;
 import com.coralsoft.domauthuser.services.UserService;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.Collections;
 import java.util.UUID;
 
 @Service
@@ -24,6 +30,9 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
 
+    @Autowired
+    RoleService roleService;
+
     @Override
     public boolean existsByUserName(String username){
         return userRepository.existsByUserName(username);
@@ -34,6 +43,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.existsByEmail(email);
     }
 
+    @Transactional
     @Override
     public UserModel saveUser(UserDto userDto) {
         var user = new UserModel();
@@ -42,6 +52,9 @@ public class UserServiceImpl implements UserService {
         user.setEmail(userDto.getEmail());
         user.setPassword(userDto.getPassword());
         user.setUserType(UserType.CLIENT);
+
+        var role = roleService.findByRoleName(RoleType.ROLE_USER.toString());
+        user.setRoles(Collections.singleton(role));
 
         return userRepository.save(user);
     }

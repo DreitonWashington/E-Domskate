@@ -51,4 +51,5 @@ public class UserController {
         userService.deleteById(userId);
         return ResponseEntity.status(HttpStatus.OK).body("User deleted successfully!");
     }
+
 }

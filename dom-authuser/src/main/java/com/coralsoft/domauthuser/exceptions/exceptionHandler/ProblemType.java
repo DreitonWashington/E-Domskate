@@ -3,7 +3,8 @@ package com.coralsoft.domauthuser.exceptions.exceptionHandler;
 import lombok.Data;
 
 public enum ProblemType {
-    USER_NOT_FOUND("/user-not-found", "User Not Found.");
+    USER_NOT_FOUND("/user-not-found", "User Not Found."),
+    ROLE_NOT_FOUND("/role-not-found", "Role Not Found.");
 
     private String uri;
     private String title;
