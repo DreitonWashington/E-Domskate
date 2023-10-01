@@ -1,6 +1,7 @@
 package com.coralsoft.domauthuser.services;
 
 import com.coralsoft.domauthuser.dtos.UserDto;
+import com.coralsoft.domauthuser.models.AddressModel;
 import com.coralsoft.domauthuser.models.UserModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,4 +22,6 @@ public interface UserService {
     Page<UserModel> findAll(Pageable pageable);
 
     UserModel updateUser(UserDto user);
+
+    UserModel updateAddress(UUID userId, AddressModel addressModel);
 }

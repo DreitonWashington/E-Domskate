@@ -1,10 +1,10 @@
 package com.coralsoft.domauthuser.controllers;
 
 import com.coralsoft.domauthuser.dtos.UserDto;
+import com.coralsoft.domauthuser.models.AddressModel;
 import com.coralsoft.domauthuser.models.UserModel;
 import com.coralsoft.domauthuser.services.UserService;
 import com.fasterxml.jackson.annotation.JsonView;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -39,6 +39,11 @@ public class UserController {
     public ResponseEntity<UserModel> updateUser(@PathVariable(value = "userId")UUID userId, @RequestBody @JsonView(UserDto.UserView.UserUpdate.class)UserDto user){
         user.setUserId(userId);
         return ResponseEntity.status(HttpStatus.OK).body(userService.updateUser(user));
+    }
+
+    @PutMapping("/{userId}/address")
+    public ResponseEntity<UserModel> updateUserAddress(@PathVariable(value = "userId")UUID userId, @RequestBody AddressModel addressModel){
+        return ResponseEntity.status(HttpStatus.OK).body(userService.updateAddress(userId, addressModel));
     }
 
     @DeleteMapping("/{userId}")

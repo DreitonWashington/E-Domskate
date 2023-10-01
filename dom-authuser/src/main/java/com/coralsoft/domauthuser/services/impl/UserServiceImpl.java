@@ -3,10 +3,10 @@ package com.coralsoft.domauthuser.services.impl;
 import com.coralsoft.domauthuser.dtos.UserDto;
 import com.coralsoft.domauthuser.enums.UserType;
 import com.coralsoft.domauthuser.exceptions.UserNotFoundException;
+import com.coralsoft.domauthuser.models.AddressModel;
 import com.coralsoft.domauthuser.models.UserModel;
 import com.coralsoft.domauthuser.repositories.UserRepository;
 import com.coralsoft.domauthuser.services.UserService;
-import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -67,5 +67,12 @@ public class UserServiceImpl implements UserService {
         UserModel userDb = this.findById(user.getUserId());
         BeanUtils.copyProperties(user, userDb, "password");
         return userRepository.save(userDb);
+    }
+
+    @Override
+    public UserModel updateAddress(UUID userId, AddressModel addressModel) {
+        var user = this.findById(userId);
+        user.setAddress(addressModel);
+        return userRepository.save(user);
     }
 }
