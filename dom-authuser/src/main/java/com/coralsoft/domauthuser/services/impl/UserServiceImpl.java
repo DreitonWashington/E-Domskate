@@ -64,9 +64,11 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
     }
 
+    @Transactional
     @Override
     public void deleteById(UUID userId) {
         this.findById(userId);
+        this.deleteRelationUserRoleByUserId(userId);
         userRepository.deleteById(userId);
     }
 
@@ -87,5 +89,12 @@ public class UserServiceImpl implements UserService {
         var user = this.findById(userId);
         user.setAddress(addressModel);
         return userRepository.save(user);
+    }
+
+    @Override
+    public void deleteRelationUserRoleByUserId(UUID userId) {
+        if(userRepository.verifyIfExistsRelationUserRole(userId)){
+            userRepository.deleteRelationUserRoleByUserId(userId);
+        }
     }
 }

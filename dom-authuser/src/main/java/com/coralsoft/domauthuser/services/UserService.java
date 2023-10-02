@@ -24,4 +24,6 @@ public interface UserService {
     UserModel updateUser(UserDto user);
 
     UserModel updateAddress(UUID userId, AddressModel addressModel);
+
+    void deleteRelationUserRoleByUserId(UUID userId);
 }
