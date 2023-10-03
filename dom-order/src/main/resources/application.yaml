@@ -1,0 +1,15 @@
+server:
+  port: 8070
+spring:
+  application:
+    name: dom-order
+  datasource:
+    url: jdbc:postgresql://localhost:5432/dom-order
+    username: postgres
+    password: 205015
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
