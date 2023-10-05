@@ -8,5 +8,5 @@ import java.util.UUID;
 public class PurchaseItemDto {
      private UUID productId;
      private UUID sizeId;
-     private int quantityId;
+     private int quantity;
 }

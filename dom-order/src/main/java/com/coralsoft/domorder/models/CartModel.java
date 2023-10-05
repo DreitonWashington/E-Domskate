@@ -18,4 +18,5 @@ public class CartModel implements Serializable {
     private UUID cartId;
     @OneToMany
     private Set<PurchaseItemModel> products;
+    private float total;
 }
