@@ -36,8 +36,4 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(userId);
     }
 
-    @Override
-    public AddressModel updateAddress(UUID userId, AddressModel address) {
-        return null;
-    }
 }

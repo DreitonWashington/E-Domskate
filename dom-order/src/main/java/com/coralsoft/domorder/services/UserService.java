@@ -13,5 +13,4 @@ public interface UserService {
 
     void deleteUserById(UUID userId);
 
-    AddressModel updateAddress(UUID userId, AddressModel address);
 }
