@@ -45,4 +45,27 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.OK).body("OrderStatus updated successfully");
     }
 
+    @PutMapping("/{orderId}/update-to-separating-in-stock")
+    public ResponseEntity<Object> updateOrderToSeparatingInStock(@PathVariable(value = "orderId")UUID orderId){
+        orderService.updateToSeparatingInStock(orderId);
+        return ResponseEntity.status(HttpStatus.OK).body("OrderStatus updated successfully");
+    }
+
+    @PutMapping("/{orderId}/update-to-shipped-out")
+    public ResponseEntity<Object> updateOrderToShippedOut(@PathVariable(value = "orderId")UUID orderId){
+        orderService.updateToShippedOut(orderId);
+        return ResponseEntity.status(HttpStatus.OK).body("OrderStatus updated successfully");
+    }
+
+    @PutMapping("/{orderId}/update-to-concluded")
+    public ResponseEntity<Object> updateOrderToConcluded(@PathVariable(value = "orderId")UUID orderId){
+        orderService.updateToConcluded(orderId);
+        return ResponseEntity.status(HttpStatus.OK).body("OrderStatus updated successfully");
+    }
+
+    @PutMapping("/{orderId}/update-to-canceled")
+    public ResponseEntity<Object> updateOrderToCanceled(@PathVariable(value = "orderId")UUID orderId){
+        orderService.updateToCanceled(orderId);
+        return ResponseEntity.status(HttpStatus.OK).body("OrderStatus updated successfully");
+    }
 }

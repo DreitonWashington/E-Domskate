@@ -16,4 +16,12 @@ public interface OrderService {
     Object findOrderById(UUID orderId);
 
     void updateToPaymentConfirmed(UUID orderId);
+
+    void updateToSeparatingInStock(UUID orderId);
+
+    void updateToShippedOut(UUID orderId);
+
+    void updateToConcluded(UUID orderId);
+
+    void updateToCanceled(UUID orderId);
 }

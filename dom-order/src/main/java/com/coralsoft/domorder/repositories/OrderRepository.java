@@ -13,6 +13,22 @@ public interface OrderRepository extends JpaRepository<OrderModel, UUID> {
     @Query(value = "update tb_orders set order_status = 'PAYMENT_CONFIRMED' where order_id = :orderId", nativeQuery = true)
     void updateToPaymentConfirmed(UUID orderId);
 
+    @Modifying
+    @Query(value = "update tb_orders set order_status = 'SEPARATING_IN_STOCK' where order_id = :orderId", nativeQuery = true)
+    void updateToSeparatingInStock(UUID orderId);
+
+    @Modifying
+    @Query(value = "update tb_orders set order_status = 'SHIPPED_OUT' where order_id = :orderId", nativeQuery = true)
+    void updateToShippedOut(UUID orderId);
+
+    @Modifying
+    @Query(value = "update tb_orders set order_status = 'CONCLUDED' where order_id = :orderId", nativeQuery = true)
+    void updateToConcluded(UUID orderId);
+
+    @Modifying
+    @Query(value = "update tb_orders set order_status = 'CANCELED' where order_id = :orderId", nativeQuery = true)
+    void updateToCanceled(UUID orderId);
+
     @Query(value = "select order_status from tb_orders where order_id = :orderId", nativeQuery = true)
     String getCurrentOrderStatus(UUID orderId);
 }

@@ -69,4 +69,41 @@ public class OrderServiceImpl implements OrderService {
         }
         orderRepository.updateToPaymentConfirmed(orderId);
     }
+
+    @Transactional
+    @Override
+    public void updateToSeparatingInStock(UUID orderId) {
+        String status = orderRepository.getCurrentOrderStatus(orderId);
+        if(status.equals("SEPARATING_IN_STOCK")){
+            throw new OrderStatusConflictException(orderId, status);
+        }
+        orderRepository.updateToSeparatingInStock(orderId);
+    }
+
+    @Override
+    public void updateToShippedOut(UUID orderId) {
+        String status = orderRepository.getCurrentOrderStatus(orderId);
+        if(status.equals("SHIPPED_OUT")){
+            throw new OrderStatusConflictException(orderId, status);
+        }
+        orderRepository.updateToShippedOut(orderId);
+    }
+
+    @Override
+    public void updateToConcluded(UUID orderId) {
+        String status = orderRepository.getCurrentOrderStatus(orderId);
+        if(status.equals("CONCLUDED")){
+            throw new OrderStatusConflictException(orderId, status);
+        }
+        orderRepository.updateToConcluded(orderId);
+    }
+
+    @Override
+    public void updateToCanceled(UUID orderId) {
+        String status = orderRepository.getCurrentOrderStatus(orderId);
+        if(status.equals("CANCELED")){
+            throw new OrderStatusConflictException(orderId, status);
+        }
+        orderRepository.updateToCanceled(orderId);
+    }
 }
