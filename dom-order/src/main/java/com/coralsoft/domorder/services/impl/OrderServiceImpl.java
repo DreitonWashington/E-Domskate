@@ -68,6 +68,7 @@ public class OrderServiceImpl implements OrderService {
             throw new OrderStatusConflictException(orderId, status);
         }
         orderRepository.updateToPaymentConfirmed(orderId);
+        orderRepository.updateLastUpdate(LocalDateTime.now(ZoneId.of("UTC")), orderId);
     }
 
     @Transactional
@@ -78,8 +79,10 @@ public class OrderServiceImpl implements OrderService {
             throw new OrderStatusConflictException(orderId, status);
         }
         orderRepository.updateToSeparatingInStock(orderId);
+        orderRepository.updateLastUpdate(LocalDateTime.now(ZoneId.of("UTC")), orderId);
     }
 
+    @Transactional
     @Override
     public void updateToShippedOut(UUID orderId) {
         String status = orderRepository.getCurrentOrderStatus(orderId);
@@ -87,8 +90,10 @@ public class OrderServiceImpl implements OrderService {
             throw new OrderStatusConflictException(orderId, status);
         }
         orderRepository.updateToShippedOut(orderId);
+        orderRepository.updateLastUpdate(LocalDateTime.now(ZoneId.of("UTC")), orderId);
     }
 
+    @Transactional
     @Override
     public void updateToConcluded(UUID orderId) {
         String status = orderRepository.getCurrentOrderStatus(orderId);
@@ -96,8 +101,10 @@ public class OrderServiceImpl implements OrderService {
             throw new OrderStatusConflictException(orderId, status);
         }
         orderRepository.updateToConcluded(orderId);
+        orderRepository.updateLastUpdate(LocalDateTime.now(ZoneId.of("UTC")), orderId);
     }
 
+    @Transactional
     @Override
     public void updateToCanceled(UUID orderId) {
         String status = orderRepository.getCurrentOrderStatus(orderId);
@@ -105,5 +112,6 @@ public class OrderServiceImpl implements OrderService {
             throw new OrderStatusConflictException(orderId, status);
         }
         orderRepository.updateToCanceled(orderId);
+        orderRepository.updateLastUpdate(LocalDateTime.now(ZoneId.of("UTC")), orderId);
     }
 }

@@ -23,6 +23,7 @@ public class OrderModel implements Serializable {
     @OneToOne
     private CartModel cart;
     private LocalDateTime orderTime;
+    private LocalDateTime lastUpdate;
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
     @Enumerated(EnumType.STRING)

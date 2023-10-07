@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public interface OrderRepository extends JpaRepository<OrderModel, UUID> {
@@ -31,4 +32,8 @@ public interface OrderRepository extends JpaRepository<OrderModel, UUID> {
 
     @Query(value = "select order_status from tb_orders where order_id = :orderId", nativeQuery = true)
     String getCurrentOrderStatus(UUID orderId);
+
+    @Modifying
+    @Query(value = "update tb_orders set last_update = :time where order_id = :orderId", nativeQuery = true)
+    void updateLastUpdate(LocalDateTime time, UUID orderId);
 }
