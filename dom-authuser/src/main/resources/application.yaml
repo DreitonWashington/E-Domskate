@@ -2,7 +2,7 @@ server:
   port: 8086
 spring:
   application:
-    name: dom-authuser
+    name: dom-authuser-service
   jpa:
     show-sql: true
     hibernate:
@@ -14,3 +14,7 @@ spring:
     url: jdbc:postgresql://localhost:5432/dom-authuser
     username: postgres
     password: 205015
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
