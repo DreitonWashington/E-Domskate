@@ -13,7 +13,17 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+  rabbitmq:
+    addresses: amqps://qkpfixxq:RKmkHq2hoXRzFS9UHlMQD3_gCo_0bAXn@chimpanzee.rmq.cloudamqp.com/qkpfixxq
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
+dom:
+  broker:
+    exchange:
+      productService: dom.productservice
+    queue:
+      productServiceQueue:
+        name: dom.productservice.ms.order
