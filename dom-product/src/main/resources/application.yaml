@@ -14,6 +14,8 @@ spring:
     url: jdbc:postgresql://localhost:5432/dom-product
     username: postgres
     password: 205015
+  rabbitmq:
+    addresses: amqps://qkpfixxq:RKmkHq2hoXRzFS9UHlMQD3_gCo_0bAXn@chimpanzee.rmq.cloudamqp.com/qkpfixxq
 eureka:
   client:
     serviceUrl:
@@ -22,3 +24,11 @@ logging:
   level:
     web: debug
     com.coralsoft: debug
+
+dom:
+  api:
+    url:
+      order: 'http://localhost:8070'
+  broker:
+    exchange:
+      productService: dom.productservice

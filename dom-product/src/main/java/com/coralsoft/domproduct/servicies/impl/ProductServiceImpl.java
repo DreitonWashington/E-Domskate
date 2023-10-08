@@ -2,14 +2,17 @@ package com.coralsoft.domproduct.servicies.impl;
 
 import com.coralsoft.domproduct.dtos.ImageModelDto;
 import com.coralsoft.domproduct.dtos.ProductModelDto;
+import com.coralsoft.domproduct.dtos.PublisherProductDto;
 import com.coralsoft.domproduct.dtos.SizeModelDto;
 import com.coralsoft.domproduct.exceptions.ProductNotFoundException;
 import com.coralsoft.domproduct.models.*;
+import com.coralsoft.domproduct.publishers.ProductServicePublisher;
 import com.coralsoft.domproduct.repositories.ProductRepository;
 import com.coralsoft.domproduct.servicies.BrandService;
 import com.coralsoft.domproduct.servicies.ImageService;
 import com.coralsoft.domproduct.servicies.ProductService;
 import com.coralsoft.domproduct.servicies.SizeService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -38,6 +41,10 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     ImageService imageService;
 
+    @Autowired
+    ProductServicePublisher productServicePublisher;
+
+    @Transactional
     @Override
     public ProductModel save(ProductModelDto productModelDto) {
         if(productModelDto.getTypeClothes() != null){
@@ -62,7 +69,12 @@ public class ProductServiceImpl implements ProductService {
             clothesModel.setImages(imagesSaved);
 
             clothesModel.setTypeClothes(productModelDto.getTypeClothes());
-            return productRepository.save(clothesModel);
+            productRepository.save(clothesModel);
+
+            PublisherProductDto publisherProductDto = new PublisherProductDto();
+            publisherProductDto.convertProductModelToPublisherProductDto(clothesModel);
+            productServicePublisher.publishNewProductCreated(publisherProductDto);
+            return clothesModel;
         }else{
             ShoesModel shoesModel = new ShoesModel();
             shoesModel.setName(productModelDto.getName());
