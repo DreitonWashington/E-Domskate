@@ -2,7 +2,7 @@ server:
   port: 8070
 spring:
   application:
-    name: dom-order
+    name: dom-order-service
   datasource:
     url: jdbc:postgresql://localhost:5432/dom-order
     username: postgres
@@ -13,3 +13,7 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
