@@ -1,7 +1,6 @@
 package com.coralsoft.domproduct.controllers;
 
 import com.coralsoft.domproduct.dtos.BrandModelDto;
-import com.coralsoft.domproduct.exceptions.BrandNotFoundException;
 import com.coralsoft.domproduct.models.BrandModel;
 import com.coralsoft.domproduct.servicies.BrandService;
 import lombok.extern.log4j.Log4j2;
@@ -10,14 +9,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 import java.util.UUID;
 
 @Log4j2
-@Controller
+@RestController
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/brands")
 public class BrandController {
 

@@ -17,7 +17,10 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 import java.util.function.Function;
 
 @Service
@@ -192,6 +195,5 @@ public class ProductServiceImpl implements ProductService {
 
         return productRepository.save(shoesModelDb);
     }
-
 
 }
