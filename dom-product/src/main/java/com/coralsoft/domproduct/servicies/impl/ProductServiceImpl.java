@@ -49,26 +49,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductModel save(ProductModelDto productModelDto) {
         if(productModelDto.getTypeClothes() != null){
-            ClothesModel clothesModel = new ClothesModel();
-            clothesModel.setName(productModelDto.getName());
-
-            Optional<BrandModel> brandModelOptional = brandService.findById(productModelDto.getBrand().getId());
-            clothesModel.setBrand(brandModelOptional.get());
-            clothesModel.setDescription(productModelDto.getDescription());
-            clothesModel.setPrice(productModelDto.getPrice());
-
-            Set<SizeModel> sizesSaved = new HashSet<>();
-            for(SizeModelDto size : productModelDto.getSizes()){
-                sizesSaved.add(sizeService.save(size));
-            }
-            clothesModel.setSizes(sizesSaved);
-
-            Set<ImageModel> imagesSaved = new HashSet<>();
-            for(ImageModelDto image : productModelDto.getImages()){
-                imagesSaved.add(imageService.save(image));
-            };
-            clothesModel.setImages(imagesSaved);
-
+            ClothesModel clothesModel = (ClothesModel) setProductValuesToSave(productModelDto, new ClothesModel());
             clothesModel.setTypeClothes(productModelDto.getTypeClothes());
             productRepository.save(clothesModel);
 
@@ -77,25 +58,7 @@ public class ProductServiceImpl implements ProductService {
             productServicePublisher.publishProductToOrder(publisherProductDto, ActionType.CREATE);
             return clothesModel;
         }else{
-            ShoesModel shoesModel = new ShoesModel();
-            shoesModel.setName(productModelDto.getName());
-
-            Optional<BrandModel> brandModelOptional = brandService.findById(productModelDto.getBrand().getId());
-            shoesModel.setBrand(brandModelOptional.get());
-            shoesModel.setDescription(productModelDto.getDescription());
-            shoesModel.setPrice(productModelDto.getPrice());
-
-            Set<SizeModel> sizesSaved = new HashSet<>();
-            for(SizeModelDto size : productModelDto.getSizes()){
-                sizesSaved.add(sizeService.save(size));
-            }
-            shoesModel.setSizes(sizesSaved);
-
-            Set<ImageModel> imagesSaved = new HashSet<>();
-            for(ImageModelDto image : productModelDto.getImages()){
-                imagesSaved.add(imageService.save(image));
-            };
-            shoesModel.setImages(imagesSaved);
+            ShoesModel shoesModel = (ShoesModel) setProductValuesToSave(productModelDto, new ShoesModel());
             shoesModel.setTypeShoes(productModelDto.getTypeShoes());
             productRepository.save(shoesModel);
 
@@ -206,6 +169,27 @@ public class ProductServiceImpl implements ProductService {
             productDb.setImages(product.getImages());
         }
         return productDb;
+    }
+
+    public Object setProductValuesToSave(ProductModelDto productModelDto, ProductModel product){
+        product.setName(productModelDto.getName());
+        Optional<BrandModel> brandModelOptional = brandService.findById(productModelDto.getBrand().getId());
+        product.setBrand(brandModelOptional.get());
+        product.setDescription(productModelDto.getDescription());
+        product.setPrice(productModelDto.getPrice());
+
+        Set<SizeModel> sizesSaved = new HashSet<>();
+        for(SizeModelDto size : productModelDto.getSizes()){
+            sizesSaved.add(sizeService.save(size));
+        }
+        product.setSizes(sizesSaved);
+
+        Set<ImageModel> imagesSaved = new HashSet<>();
+        for(ImageModelDto image : productModelDto.getImages()){
+            imagesSaved.add(imageService.save(image));
+        };
+        product.setImages(imagesSaved);
+        return product;
     }
 
 }
