@@ -4,6 +4,7 @@ import com.coralsoft.domproduct.dtos.ImageModelDto;
 import com.coralsoft.domproduct.dtos.ProductModelDto;
 import com.coralsoft.domproduct.dtos.PublisherProductDto;
 import com.coralsoft.domproduct.dtos.SizeModelDto;
+import com.coralsoft.domproduct.enums.ActionType;
 import com.coralsoft.domproduct.exceptions.ProductNotFoundException;
 import com.coralsoft.domproduct.models.*;
 import com.coralsoft.domproduct.publishers.ProductServicePublisher;
@@ -73,7 +74,7 @@ public class ProductServiceImpl implements ProductService {
 
             PublisherProductDto publisherProductDto = new PublisherProductDto();
             publisherProductDto.convertProductModelToPublisherProductDto(clothesModel);
-            productServicePublisher.publishNewProductCreated(publisherProductDto);
+            productServicePublisher.publishProductToOrder(publisherProductDto, ActionType.CREATE);
             return clothesModel;
         }else{
             ShoesModel shoesModel = new ShoesModel();
@@ -96,7 +97,12 @@ public class ProductServiceImpl implements ProductService {
             };
             shoesModel.setImages(imagesSaved);
             shoesModel.setTypeShoes(productModelDto.getTypeShoes());
-            return productRepository.save(shoesModel);
+            productRepository.save(shoesModel);
+
+            PublisherProductDto publisherProductDto = new PublisherProductDto();
+            publisherProductDto.convertProductModelToPublisherProductDto(shoesModel);
+            productServicePublisher.publishProductToOrder(publisherProductDto, ActionType.CREATE);
+            return shoesModel;
         }
     }
 
@@ -151,61 +157,55 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void deleteProductById(UUID productId) {
         var productModel = productRepository.findById(productId).orElseThrow(() -> new ProductNotFoundException(productId));
+        var publisher = new PublisherProductDto().convertProductModelToPublisherProductDto(productModel);
         sizeService.deleteSizes(productModel.getSizes());
         imageService.deleteImages(productModel.getImages());
         productRepository.deleteById(productId);
+        productServicePublisher.publishProductToOrder(publisher, ActionType.DELETE);
     }
 
     @Override
     public ClothesModel updateClothes(UUID productId, ClothesModel clothesModel) {
         ClothesModel clothesModelDb = (ClothesModel) productRepository.findById(productId).get();
+        setProductValues(clothesModel, clothesModelDb);
 
-        if(clothesModel.getName() != null){
-            clothesModelDb.setName(clothesModel.getName());
-        }
-        if(clothesModel.getBrand() != null){
-            clothesModelDb.setBrand(clothesModel.getBrand());
-        }
-        if(clothesModel.getDescription() != null){
-            clothesModelDb.setDescription(clothesModel.getDescription());
-        }
-        if(clothesModel.getPrice() != null){
-            clothesModelDb.setPrice(clothesModel.getPrice());
-        }
-        if(clothesModel.getSizes() != null){
-            clothesModelDb.setSizes(clothesModel.getSizes());
-        }
-        if(clothesModel.getImages() != null){
-            clothesModelDb.setImages(clothesModel.getImages());
-        }
-
-        return productRepository.save(clothesModelDb);
+        var publisher = new PublisherProductDto().convertProductModelToPublisherProductDto(clothesModelDb);
+        productRepository.save(clothesModelDb);
+        productServicePublisher.publishProductToOrder(publisher, ActionType.UPDATE);
+        return clothesModelDb;
     }
 
     @Override
     public ShoesModel updateShoes(UUID productId, ShoesModel shoesModel) {
         ShoesModel shoesModelDb = (ShoesModel) productRepository.findById(productId).get();
+        setProductValues(shoesModel, shoesModelDb);
 
-        if(shoesModel.getName() != null){
-            shoesModelDb.setName(shoesModel.getName());
-        }
-        if(shoesModel.getBrand() != null){
-            shoesModelDb.setBrand(shoesModel.getBrand());
-        }
-        if(shoesModel.getDescription() != null){
-            shoesModelDb.setDescription(shoesModel.getDescription());
-        }
-        if(shoesModel.getPrice() != null){
-            shoesModelDb.setPrice(shoesModel.getPrice());
-        }
-        if(shoesModel.getSizes() != null){
-            shoesModelDb.setSizes(shoesModel.getSizes());
-        }
-        if(shoesModel.getImages() != null){
-            shoesModelDb.setImages(shoesModel.getImages());
-        }
+        var publisher = new PublisherProductDto().convertProductModelToPublisherProductDto(shoesModelDb);
+        productRepository.save(shoesModelDb);
+        productServicePublisher.publishProductToOrder(publisher, ActionType.UPDATE);
+        return shoesModelDb;
+    }
 
-        return productRepository.save(shoesModelDb);
+    public Object setProductValues(ProductModel product, ProductModel productDb){
+        if(product.getName() != null){
+            productDb.setName(product.getName());
+        }
+        if(product.getBrand() != null){
+            productDb.setBrand(product.getBrand());
+        }
+        if(product.getDescription() != null){
+            productDb.setDescription(product.getDescription());
+        }
+        if(product.getPrice() != null){
+            productDb.setPrice(product.getPrice());
+        }
+        if(product.getSizes() != null){
+            productDb.setSizes(product.getSizes());
+        }
+        if(product.getImages() != null){
+            productDb.setImages(product.getImages());
+        }
+        return productDb;
     }
 
 }
